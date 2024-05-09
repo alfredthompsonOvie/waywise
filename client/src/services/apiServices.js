@@ -65,7 +65,6 @@ async function createCustomer(data) {
     }
 
     const dataRes = await res.json();
-    console.log(dataRes)
 
   } catch (e) {
     console.error("Error sending data to backend:", e);
@@ -96,7 +95,6 @@ async function editCustomer(data) {
     }
 
     const dataRes = await res.json();
-    console.log(dataRes);
 
   } catch (e) {
     console.error("Error sending data to backend:", e);
@@ -108,8 +106,6 @@ async function deleteCustomer(id) {
     const res = await fetch(`${BASE_URL}/api/v1/customers/${id}`, {
       method: 'DELETE'
     })
-
-    console.log(res)
   } catch (e) {
     console.log(e)
   }
