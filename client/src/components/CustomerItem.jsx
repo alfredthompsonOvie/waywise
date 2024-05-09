@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { TiDelete } from "react-icons/ti";
 import { FaEdit } from "react-icons/fa";
-import { useDeleteCustomer } from "../features/useDeleteCustomer"
+import { useDeleteCustomer } from "../features/useDeleteCustomer";
 import { useState } from "react";
 import EditCustomerForm from "./EditCustomerForm";
 
@@ -14,15 +14,28 @@ const StyledItem = styled.li`
 `;
 
 const StyledLink = styled(Link)`
-  background-color: #fbe4d8;
+  /* background-color: #fbe4d8; */
+  background-color: var(--background-card);
+  /* background-color: var(--primary); */
+  /* background-color: var(--accent); */
+
+  /* background-color: var(--accent-alt); */
+  background-color: var(--secondary);
+  /* background-color: #0F122F; */
+  background-color: #220a28;
+  background-color: var(--text);
+  background-color: #dbedfe;
+
   color: #190019;
-  display: flex;
+  display: block;
+  /* display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 1em;
-  padding: 0.5em 1em;
+  gap: 1em; */
+  padding: 0.5em 0.8em;
   border-radius: 0.5em;
+  /* border-radius: 5em; */
 `;
 
 const StyledName = styled.h1`
@@ -30,7 +43,7 @@ const StyledName = styled.h1`
   text-transform: capitalize;
 `;
 const StyledAddress = styled.p`
-  font-size: 0.95rem;
+  font-size: 0.82rem;
   text-transform: capitalize;
   font-style: italic;
 `;
@@ -39,16 +52,13 @@ const ButtonsWrapper = styled.section`
   display: flex;
   align-items: center;
   gap: 0.5em;
-
 `;
 const StyledButton = styled.button`
-  font-size:  ${props => props.$size || "1.2rem"};
-  color: ${props => props.$delete || "#190019"};
-
+  font-size: ${(props) => props.$size || "1.2rem"};
+  color: ${(props) => props.$delete || "#190019"};
 `;
 
 const Modal = styled.section`
-  
   position: absolute;
   top: 0;
   left: 0;
@@ -59,10 +69,15 @@ const Modal = styled.section`
   display: grid;
   place-items: center;
   z-index: 999;
-`
+`;
+
+const Heading = styled.header`
+  display: flex;
+  justify-content: space-between;
+`;
 
 function CustomerItem({ customer }) {
-  const { name, address, _id, position} = customer;
+  const { name, address, _id, position } = customer;
   const { isDeleting, deleteCustomer } = useDeleteCustomer();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -70,39 +85,45 @@ function CustomerItem({ customer }) {
     e.preventDefault();
 
     deleteCustomer(_id);
-
   }
   function handleEdit(e) {
     e.preventDefault();
 
-    setIsOpen(true)
-
+    setIsOpen(true);
   }
-  
+
   return (
     <>
-    <StyledItem>
-      {/* <StyledLink className={_id === currentCustomer._id ? "active" : ""} to={`${_id}?lat=${position.lat}&lng=${position.lng}`}> */}
-      <StyledLink  to={`${_id}?lat=${position.lat}&lng=${position.lng}`}>
-        <section>
-          <StyledName>{ name }</StyledName>
-          <StyledAddress>{ address }</StyledAddress>
-        </section>
+      <StyledItem>
+        {/* <StyledLink className={_id === currentCustomer._id ? "active" : ""} to={`${_id}?lat=${position.lat}&lng=${position.lng}`}> */}
+        <StyledLink to={`${_id}?lat=${position.lat}&lng=${position.lng}`}>
+          <Heading>
+            <StyledName>{name}</StyledName>
 
-        <ButtonsWrapper>
-          <StyledButton onClick={handleEdit}>
-            <FaEdit />
-          </StyledButton>
+            <ButtonsWrapper>
+              <StyledButton onClick={handleEdit}>
+                <FaEdit />
+              </StyledButton>
 
-          <StyledButton disabled={isDeleting} $delete="#BF4F74" $size="1.5rem" onClick={handleDelete}>
-            <TiDelete />
-          </StyledButton>
-        </ButtonsWrapper>
-      </StyledLink>
+              <StyledButton
+                disabled={isDeleting}
+                $delete="#BF4F74"
+                $size="1.5rem"
+                onClick={handleDelete}
+              >
+                <TiDelete />
+              </StyledButton>
+            </ButtonsWrapper>
+          </Heading>
+
+          <StyledAddress>{address}</StyledAddress>
+        </StyledLink>
       </StyledItem>
-      {isOpen && <Modal>
-        <EditCustomerForm setIsOpen={ setIsOpen } customer={customer}/>
-      </Modal>}
+      {isOpen && (
+        <Modal>
+          <EditCustomerForm setIsOpen={setIsOpen} customer={customer} />
+        </Modal>
+      )}
     </>
   );
 }

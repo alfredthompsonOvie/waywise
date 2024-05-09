@@ -2,6 +2,11 @@
 const mongoose = require("mongoose");
 
 const customerSchema = new mongoose.Schema({
+	// userId: {
+	// 	type: mongoose.Schema.Types.ObjectId,
+  //   ref: "User",
+  //   required: [true, "Customer must belong to a user"],
+	// },
 	name: {
 		type: String,
 		required: [true, "Customer must have a name"],
@@ -42,5 +47,7 @@ const customerSchema = new mongoose.Schema({
 });
 
 const Customer = mongoose.model("Customer", customerSchema);
+
+// console.log("UserId:", mongoose.Schema.Types.ObjectId.toString());
 
 module.exports = Customer;

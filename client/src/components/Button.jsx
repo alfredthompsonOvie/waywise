@@ -2,25 +2,22 @@
 
 import styled, { css } from "styled-components";
 
-const StyledButton = styled.button`
-  padding: 0.8em 1.9em;
-  display: inline-block;
-  font-size: 1rem;
+const Button = styled.button`
   border-radius: 0.4em;
-  background-color: #052659;
-  color: var(--text);
   border: 1px solid transparent;
   transition: all 0.3s linear;
   width: 100%;
+  padding: 0.8em 1.9em;
+  font-size: 1rem;
 
-  &:hover {
-    background-color: transparent;
-    border: 1px solid var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3em;
 
-  }
 
 
-  ${(props) =>
+  /* ${(props) =>
     props.$primary &&
     css`
       background-color: #052659;
@@ -28,25 +25,52 @@ const StyledButton = styled.button`
       &:hover {
         background-color: #2b124c;
       }
-    `}
+    `} */
+  /* 
+ */
 
-  ${(props) =>
-    props.$primary &&
-    css`
-      color: blue;
-    `}
-
-  ${(props) =>
+  /* ${(props) =>
     props.$secondary &&
     css`
       background-color: transparent;
       display: flex;
       align-items: center;
       gap: 0.3em;
-    `}
+    `} */
+
+  ${(props) => {
+    switch (props.$mode) {
+      case "primary":
+        return css`
+          background-color: transparent;
+          padding: 0;
+          color: var(--primary);
+          text-decoration: underline;
+        `;
+      case "secondary":
+        return css`
+          background-color: transparent;
+          padding: 0;
+          color: var(--primary);
+          /* text-decoration: underline; */
+        `;
+      default:
+        return css`
+          background-color: var(--primary);
+          color: var(--background);
+          /* border-radius: 5em; */
+          &:hover {
+    background-color: transparent;
+    border: 1px solid var(--text);
+    color: var(--text);
+
+  }
+        `;
+    }
+  }}
 `;
-function Button({ children, onClick }) {
-  return <StyledButton onClick={onClick}>{children}</StyledButton>;
-}
+// function Button({ children, onClick, mode }) {
+//   return <StyledButton onClick={onClick} $mode={mode}>{children}</StyledButton>;
+// }
 
 export default Button;

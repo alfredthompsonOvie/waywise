@@ -1,37 +1,37 @@
 /* eslint-disable react/prop-types */
 import styled from "styled-components";
 import GoogleMaps from "../components/GoogleMaps";
-import Sidebar from "../components/Sidebar";
-import Profile from "../components/Profile";
 import { useEffect, useState } from "react";
+
+import Sidebar from "../components/Sidebar";
 import { useCustomers } from "../features/useCustomers";
+import PulsatingCircle from "../components/PulsatingCircleButton";
 
 const StyledApp = styled.section`
-  position: relative;
-  min-height: 100vh;
-
   display: grid;
-  grid-template-rows: repeat(2, auto);
   grid-template-columns: 1fr 10fr 1fr;
-  gap: 1em;
+  grid-template-rows: 100vh;
   padding: 0.5em;
+  position: relative;
 
-  @media (min-width: 56.25em){
-    grid-template-columns: 4fr 8fr;
+@media (min-width: 56.25em){
+    grid-template-columns: 20em 1fr;
     grid-template-rows: auto;
+  /* grid-template-rows: 100dvh; */
+
+    gap: 0.5em;
     padding: 1em;
   }
-  @media (min-width: 75em){
+  /* @media (min-width: 75em){
     grid-template-columns: 320px 1fr;
-  }
-`;
+  } */
+  `;
 
 const MapContainer = styled.section`
-  min-height: 50vh;
-  height: 100%;
-  width: 100%;
+
   grid-column: 1/-1;
   grid-row: 1;
+
   border-radius: 0.8em;
   @media (min-width: 56.25em){
     grid-column: 2;
@@ -40,9 +40,13 @@ const MapContainer = styled.section`
 `;
 
 function AppLayout() {
+  const [isOpen, setIsOpen] = useState(false);
   const [customerDetails, setCustomerDetails] = useState([]);
-
   const { customers } = useCustomers();
+
+  function handleClick() {
+    setIsOpen(!isOpen);
+  }
 
   useEffect(() => { 
     if (customers) {
@@ -57,10 +61,11 @@ function AppLayout() {
 
   return (
     <StyledApp>
-      <Sidebar />
+      <Sidebar  isOpen={ isOpen}/>
+
+      <PulsatingCircle className={isOpen ? "isOpen" : ""} isOpen={ isOpen} onHandleClick={handleClick} />
 
       <MapContainer>
-        <Profile/>
         <GoogleMaps customerDetails={ customerDetails } />
       </MapContainer>
     </StyledApp>

@@ -21,11 +21,14 @@ exports.signup = catchAsync(async function (req, res, next) {
 
   const token = signToken(newUser._id);
 
+  const user = await User.findById(newUser._id).select("-password");
+  console.log(user);
+
   res.status(201).json({
     status: "success",
     token,
     data: {
-      user: newUser,
+      user
     },
   });
 });
@@ -38,8 +41,10 @@ exports.login = catchAsync(async (req, res, next) => {
   }
 
   const user = await User.findOne({ email }).select("+password");
+  console.log("user",user);
 
   const correct = await user.correctPassword(password, user.password);
+  console.log("correct",correct);
 
   if (!user || !correct) {
     return next(new AppError("Incorrect email or password", 401));
@@ -49,6 +54,16 @@ exports.login = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: "success",
     token,
+    data: {
+      user: {
+        name: user.name,
+        email: user.email,
+        address: user.address,
+        phoneNumber: user.phoneNumber,
+        photo: user.photo
+        
+      }
+    }
   });
 });
 

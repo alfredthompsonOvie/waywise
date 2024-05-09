@@ -12,26 +12,30 @@ const StyledContainer = styled.section`
 `;
 
 const StyledHeader = styled.header`
-  display: flex;
+  /* display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 1em 0;
+  justify-content: space-between; */
+  /* padding: 1em 0; */
+  margin-bottom: 1em;
 `;
 
 const StyledTitle = styled.h1`
   font-size: 1em;
   text-transform: capitalize;
   font-style: italic;
+  text-align: center;
 `;
 
 function CustomersList() {
   const { customers, isLoading, error } = useCustomers();
 
+
+  console.log("customers, isLoading, error");
   console.log(customers, isLoading, error);
   
   if (isLoading) return <Spinner />;
   
-  if(error) return <Message message="Sorry our Server is down" />
+  if(error) return <Message message="Sorry our Server is down" $mode="secondary" />
   if (!customers.length)
     return (
       <Message message="Add your first Customer by clicking on a city on the map" />

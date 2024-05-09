@@ -6,7 +6,7 @@ const StyledHeading = styled.h1`
   font-size: clamp(1.5rem, 6vw, 2.5rem);
   margin-bottom: 0.3em;
   @media (min-width: 56.25em) {
-    font-size: 1.5rem;
+    font-size: 3rem;
   }
 `;
 

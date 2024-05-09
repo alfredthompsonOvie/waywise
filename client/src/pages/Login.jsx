@@ -15,6 +15,7 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import FormTitle from "../components/FormTitle";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
+import Message from "../components/Message";
 
 const StyledLogin = styled.section`
   display: grid;
@@ -23,8 +24,15 @@ const StyledLogin = styled.section`
   align-items: start;
 
   min-height: 100vh;
-  min-height: 100vh;
 `;
+const Paragraph = styled.p`
+  margin: 1em 0;
+  ${props=>props.$secondary && `
+    text-align: right;
+    font-style: italic;
+    font-size: .8rem
+  `}
+`
 
 
 function Login() {
@@ -62,6 +70,8 @@ function Login() {
 
       <Form onSubmit={handleSubmit(onSubmit)}>
         <FormTitle title="Login" />
+        <Message  message="Welcome Back! Please login to your account..." mode="auth"/>
+
 
         <FormControl
           name="email"
@@ -79,13 +89,13 @@ function Login() {
           type="password"
           placeholder="Password"
         />
-
+        <Paragraph $secondary>Forgot password?</Paragraph>
         <FormFooter>
           <Button>Login</Button>
-          <p>
-            Don&apos;t have an account?{" "}
-            <Cta href="/auth/signup" content="Signup" />
-          </p>
+          <Paragraph >
+            Not a User?{" "}
+            <Cta href="/auth/signup" content="Signup" mode="secondary"/>
+          </Paragraph>
         </FormFooter>
       </Form>
     </StyledLogin>

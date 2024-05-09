@@ -15,6 +15,10 @@ const userSchema = new mongoose.Schema({
     validate: [validator.isEmail, "Please enter a valid email"],
   },
   address: String,
+  photo: {
+    type: String,
+    default: "default.png"
+  },
   password: {
     type: String,
     required: [true, "Please enter a password"],
@@ -32,8 +36,8 @@ const userSchema = new mongoose.Schema({
     },
   },
   passwordChangedAt: Date,
-  // passwordResetToken: String,
-  // passwordResetExpires: Date,
+  passwordResetToken: String,
+  passwordResetExpires: Date,
 
   // active: {
   //   type: Boolean,

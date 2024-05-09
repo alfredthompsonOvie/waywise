@@ -6,12 +6,12 @@ import styled from "styled-components";
 
 const MapContainer = styled.section`
   width: 100%;
-  height: 50vh;
+  height: 100%;
   border-radius: 0.8em;
+
   @media (min-width: 56.25em) {
     grid-column: 2;
     grid-row: 1;
-    height: 100%;
   }
 `;
 

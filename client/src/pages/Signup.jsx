@@ -23,8 +23,8 @@ const StyledSignup = styled.section`
   grid-template-rows: 5em auto;
   /* align-items: start; */
 
-  min-height: 100vh;
-  background-color: #190019;
+  /* min-height: 100vh; */
+  /* background-color: #190019; */
 `;
 
 function Signup() {
@@ -58,13 +58,12 @@ function Signup() {
     } catch (err) {
       console.log(err)
     }
-    console.log(data)
   };
 
   return (
     <StyledSignup>
       <Navbar />
-      <Form onSubmit={handleSubmit(onSubmit)} $signup="2em 0">
+      <Form onSubmit={handleSubmit(onSubmit)} mode="auth">
         <FormTitle title="Signup" />
         <FormControl
           name="name"
@@ -108,7 +107,7 @@ function Signup() {
           placeholder="Confirm Password"
         />
         <FormFooter>
-          <Button>Signup</Button>
+          <Button $mode="primary">Signup</Button>
           <p>
             Already have an account? <Cta href="/auth/login" content="Login" />
           </p>

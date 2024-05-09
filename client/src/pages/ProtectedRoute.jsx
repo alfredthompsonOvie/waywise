@@ -6,17 +6,22 @@ import { useNavigate } from "react-router-dom";
 
 function ProtectedRoute({ children }) {
   const [hasToken, setHasToken] = useState(false);
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, dispatch } = useAuth();
 
   const navigate = useNavigate();
 
   useEffect(() => { 
-    setHasToken(!!localStorage.getItem("token"));
+
+    const token = localStorage.getItem("token");
+    setHasToken(!!token);
     
-    if (!isAuthenticated) {
+    if (!isAuthenticated && token) {
+      const userData = JSON.parse(localStorage.getItem("user"));
+      dispatch({type: "update", payload: userData})
+    } else if (!isAuthenticated && !token) {
       navigate("/auth/login");
     }
-  }, [isAuthenticated, navigate])
+  }, [isAuthenticated, navigate, dispatch])
   return hasToken ? children : null
 }
 

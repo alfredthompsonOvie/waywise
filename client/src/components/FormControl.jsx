@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+// import { FaUser } from "react-icons/fa6";
 
 import styled from "styled-components";
 
@@ -23,6 +24,10 @@ const StyledInput = styled.input`
     border: 2px solid red;
 
   `}
+
+  &.error {
+    border: 2px solid red;
+  }
 `;
 
 const Error = styled.span`
@@ -53,7 +58,9 @@ function FormControl({
         defaultValue={defaultValue}
         {...register(label, rules)}
         // hasError={hasError}
+        className={errors[label] ? "error" : ""}
       />
+      {/* <FaUser /> */}
       {errors[label] && <Error>{errors[label].message}</Error>}
       {error && <Error>{error}</Error>}
     </FormGroup>

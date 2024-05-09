@@ -6,7 +6,7 @@ const StyledCta = styled(Link)`
   background-color: var(--accent);
   color: var(--background);
   padding: 0.5em 1em;
-  border-radius: 0 0.4em;
+  border-radius: 0.4em;
   display: inline-block;
   position: relative;
 
@@ -16,16 +16,19 @@ const StyledCta = styled(Link)`
         return css`
           background-color: transparent;
           padding: 0;
+          color: var(--primary);
+          text-decoration: underline;
         `;
       default:
         return css`
-          background-color: var(--accent);
+          background-color: var(--primary);
+          color: var(--background);
         `;
     }
   }}
 `;
-function Cta({ href, content }) {
-  return <StyledCta to={href}>{content}</StyledCta>;
+function Cta({ href, content, mode }) {
+  return <StyledCta to={href} $mode={mode}>{content}</StyledCta>;
 }
 
 export default Cta;
