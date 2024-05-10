@@ -31,7 +31,7 @@ const NavList = styled.ul`
   top: 5.5em;
   right: 0%;
 
-  background-color: var(--secondary);
+  background-color: var(--background-card);
   padding: 1em;
   border-radius: 0.4em;
   z-index: 10;

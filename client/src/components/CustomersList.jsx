@@ -30,8 +30,8 @@ function CustomersList() {
   const { customers, isLoading, error } = useCustomers();
 
 
-  console.log("customers, isLoading, error");
-  console.log(customers, isLoading, error);
+  // console.log("customers, isLoading, error");
+  // console.log(customers, isLoading, error);
   
   if (isLoading) return <Spinner />;
   

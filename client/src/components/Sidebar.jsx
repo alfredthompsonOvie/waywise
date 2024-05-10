@@ -1,12 +1,14 @@
 /* eslint-disable react/prop-types */
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+
 import Profile from "./Profile";
 import Brand from "./Brand";
 import Button from "./Button";
 
 import { FaCog } from "react-icons/fa";
 import { CiLogout } from "react-icons/ci";
+import { useAuth } from "../contexts/AuthContext";
 
 // import ButtonMenu from "./ButtonMenu";
 // import { useState } from "react";
@@ -78,58 +80,20 @@ const Footer = styled.footer`
   align-items: center;
 `;
 
-// const pulseAnimation = keyframes`
-//   0% {
 
-//     transform: scale(0.95);
-//     box-shadow: 0 0 0 0 rgba(241, 170, 155, 0.7);
-//   }
-  
-//   70% {
-//     transform: scale(1);
-//     box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
-//   }
-  
-//   100% {
-//     transform: scale(0.95);
-//     box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
-//   }
-// `;
-
-// const Menu = styled.section`
-// background-color: var(--background);
-// padding: 1em;
-// border-radius: 50%;
-// width: 50px;
-// height: 50px;
-// display: flex;
-// justify-content: center;
-// align-items: center;
-
-// position: absolute;
-// left: 95%;
-// left: 19em;
-
-// transform: rotate(0deg);
-// animation: ${pulseAnimation} 2s infinite; 
+function Sidebar({ isFormOpen }) {
+  const navigate = useNavigate()
 
 
-//   &.isOpen {
-//     position: absolute;
-//     transform: rotate(180deg);
-//     background-color: var(--secondary);
-//   }
-
-// `;
-
-function Sidebar({ isOpen }) {
+  const {logout } = useAuth()
   
   function handleClick() {
-    // setIsOpen(!isOpen);
+    logout();
+    navigate("/");
   }
 
   return (
-    <StyledAside className={isOpen ? "isOpen" : ""}>
+    <StyledAside className={isFormOpen ? "isOpen" : ""}>
       <Header>
         <Brand />
 

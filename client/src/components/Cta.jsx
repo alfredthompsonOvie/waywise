@@ -25,7 +25,8 @@ const StyledCta = styled(Link)`
           color: var(--background);
         `;
     }
-  }}
+}}
+  
 `;
 function Cta({ href, content, mode }) {
   return <StyledCta to={href} $mode={mode}>{content}</StyledCta>;

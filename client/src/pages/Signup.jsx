@@ -63,7 +63,7 @@ function Signup() {
   return (
     <StyledSignup>
       <Navbar />
-      <Form onSubmit={handleSubmit(onSubmit)} mode="auth">
+      <Form onSubmit={handleSubmit(onSubmit)} $auth>
         <FormTitle title="Signup" />
         <FormControl
           name="name"
@@ -107,9 +107,9 @@ function Signup() {
           placeholder="Confirm Password"
         />
         <FormFooter>
-          <Button $mode="primary">Signup</Button>
+          <Button>Signup</Button>
           <p>
-            Already have an account? <Cta href="/auth/login" content="Login" />
+            Already have an account? <Cta href="/auth/login" content="Login" mode="secondary" />
           </p>
         </FormFooter>
       </Form>

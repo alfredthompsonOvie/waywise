@@ -8,13 +8,14 @@ const Form = styled.form`
   padding: ${props=> props.$signup || "1em 1.5em"};
   max-width: 25em;
   width: 100%;
-  margin: 4em auto;
   border-radius: .4em;
   align-self: center;
-  background-color: var(--secondary-alt);
-  background-color: var(--secondary);
+  background-color: var(--background-card);
   color: var(--text);
 
+  ${(props => props.$auth && css`
+  margin: 4em auto;
+  `)}
   /* ${(props) => {
     switch (props.$mode) {
       case "auth":

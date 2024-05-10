@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import { object, string } from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 
 import BackButton from "./BackButton";
 import FormControl from "./FormControl";
@@ -13,17 +13,31 @@ import FormTitle from "./FormTitle";
 
 import { useUrlPosition } from "../hooks/useUrlPosition.js";
 import { useCreateCustomer } from "../features/useCreateCustomer.js";
+import { useEffect, useState } from "react";
 
 const StyledCustomerForm = styled.section`
   max-width: 25em;
   margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
 `;
 
 
 function CustomerForm() {
   const navigate = useNavigate();
-  const [lat, lng] = useUrlPosition();
+  const [cords, setCords] = useState({});
+  const location = useLocation();
   const { isCreating, createCustomer } = useCreateCustomer();
+
+  useEffect(() => { 
+    const position = location.search.split("&");
+
+    // console.log("lat: " + position[0].split("=")[1]);
+    // console.log("lng: " + position[1].split("=")[1]);
+    
+    setCords({lat: position[0].split("=")[1], lng: position[1].split("=")[1]})
+  },[location]);
 
   let userSchema = object({
     name: string().required("Name is required"),
@@ -52,7 +66,7 @@ function CustomerForm() {
     <StyledCustomerForm>
       <BackButton />
       <Form onSubmit={handleSubmit(onSubmit)}>
-          <FormTitle title="Customer Details" />
+          <FormTitle title="Customer Details" mode="customerDetails"/>
         <FormControl
           type="text"
           placeholder="Name"
@@ -92,7 +106,7 @@ function CustomerForm() {
           name="lat"
           register={register}
           errors={errors}
-          defaultValue={lat}
+          defaultValue={cords.lat}
         />
         <FormControl
           type="number"
@@ -101,7 +115,7 @@ function CustomerForm() {
           name="lng"
           register={register}
           errors={errors}
-          defaultValue={lng}
+          defaultValue={cords.lng}
         />
 
         <FormFooter>

@@ -68,7 +68,7 @@ function Login() {
     <StyledLogin>
       <Navbar />
 
-      <Form onSubmit={handleSubmit(onSubmit)}>
+      <Form onSubmit={handleSubmit(onSubmit)} $auth>
         <FormTitle title="Login" />
         <Message  message="Welcome Back! Please login to your account..." mode="auth"/>
 

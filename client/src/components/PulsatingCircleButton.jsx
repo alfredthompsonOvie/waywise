@@ -87,7 +87,7 @@ const Arrow = styled(FaChevronLeft)`
 
 const SCREEN_SIZE = 900;
 
-function PulsatingCircleButton({ onHandleClick, isOpen }) {
+function PulsatingCircleButton({ onHandleClick, isFormOpen }) {
   const [isMobile, setIsMobile] = useState(() => window.innerWidth < SCREEN_SIZE);
 
   useEffect(() => { 
@@ -104,7 +104,7 @@ function PulsatingCircleButton({ onHandleClick, isOpen }) {
 
   return (
     <>
-    {isMobile && <StyledButton onClick={onHandleClick} className={isOpen ? "isOpen" : ""}>
+    {isMobile && <StyledButton onClick={onHandleClick} className={isFormOpen ? "isOpen" : ""}>
       <Arrow  />
     </StyledButton>}
     </>

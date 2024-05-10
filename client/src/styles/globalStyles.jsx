@@ -87,6 +87,13 @@ const GlobalStyles = createGlobalStyle`
   
   transition: all 0.3s linear;
 }
+.leaflet-map {
+  width: 100%;
+  min-height: 100vh; 
+  height: 100%;
+  position: relative;
+  z-index: 10;
+}
 
 body {
   font-family: "Poppins", sans-serif;
