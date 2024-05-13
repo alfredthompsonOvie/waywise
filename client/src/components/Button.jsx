@@ -15,8 +15,18 @@ const Button = styled.button`
   justify-content: center;
   gap: 0.3em;
 
-
-
+  /* ${(props) =>
+    props.$userPosition &&
+    css`
+      position: absolute;
+      bottom: 1em;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 100;
+      width: initial;
+      background-color: var(--accent);
+      color: var(--text);
+    `} */
   /* ${(props) =>
     props.$primary &&
     css`
@@ -54,17 +64,27 @@ const Button = styled.button`
           color: var(--primary);
           /* text-decoration: underline; */
         `;
+      case "userPosition":
+        return css`
+          position: absolute;
+          bottom: 1em;
+          left: 50%;
+          transform: translateX(-50%);
+          width: initial;
+          background-color: var(--accent);
+          color: var(--text);
+          z-index: 20;
+        `;
       default:
         return css`
           background-color: var(--primary);
           color: var(--background);
           /* border-radius: 5em; */
           &:hover {
-    background-color: transparent;
-    border: 1px solid var(--text);
-    color: var(--text);
-
-  }
+            background-color: transparent;
+            border: 1px solid var(--text);
+            color: var(--text);
+          }
         `;
     }
   }}

@@ -19,6 +19,12 @@ const StyledCta = styled(Link)`
           color: var(--primary);
           text-decoration: underline;
         `;
+      case "settings":
+        return css`
+          background-color: transparent;
+          padding: 0;
+          color: var(--primary);
+        `;
       default:
         return css`
           background-color: var(--primary);
@@ -28,8 +34,8 @@ const StyledCta = styled(Link)`
 }}
   
 `;
-function Cta({ href, content, mode }) {
-  return <StyledCta to={href} $mode={mode}>{content}</StyledCta>;
+function Cta({ href, mode, children }) {
+  return <StyledCta to={href} $mode={mode}>{children}</StyledCta>;
 }
 
 export default Cta;

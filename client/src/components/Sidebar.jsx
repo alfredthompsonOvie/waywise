@@ -4,56 +4,52 @@ import styled from "styled-components";
 
 import Profile from "./Profile";
 import Brand from "./Brand";
-import Button from "./Button";
 
 import { FaCog } from "react-icons/fa";
-import { CiLogout } from "react-icons/ci";
 import { useAuth } from "../contexts/AuthContext";
+import Cta from "./Cta";
+import LogoutButton from "./LogoutButton";
 
 // import ButtonMenu from "./ButtonMenu";
 // import { useState } from "react";
 // import PulsatingCircle from "./PulsatingCircle";
 
 const StyledAside = styled.aside`
+  max-width: 20em;
+  width: 100%;
+
+  position: absolute;
+  top: 0;
+  left: -100%;
+  bottom: 0;
+
   display: flex;
   flex-direction: column;
   gap: 0.8em;
   padding: 1em;
 
-  position: absolute;
-  top: 0;
-  left: -100%;
-  /* left: 0%; */
-  bottom: 0;
-
-
-
-  max-width: 20em;
-  width: 100%;
-  /* height: 100%; */
   background-color: var(--background-card);
-  /* background-color: var(--secondary); */
   z-index: 100;
-  
-  
+    
   &.isOpen {
     left: 0%;
   }
 
   @media (min-width: 56.25em) {
+    position: static;
     grid-column: 1;
     grid-row: 1;
     min-height: 100vh;
     height: 100%;
-    /* background-color: var(--secondary); */
 
-      /* grid-row: 1;
-  grid-column: 2; */
   border-radius: 0.8em;
 
-    position: static;
   }
 `;
+
+const Content = styled.section`
+  
+`
 
 const Header = styled.header`
   display: flex;
@@ -88,6 +84,7 @@ function Sidebar({ isFormOpen }) {
   const {logout } = useAuth()
   
   function handleClick() {
+
     logout();
     navigate("/");
   }
@@ -106,15 +103,12 @@ function Sidebar({ isFormOpen }) {
       </Contents>
 
       <Footer>
-        <Button $mode="secondary">
+        <Cta mode="settings" href="/settings">
           {" "}
           <FaCog /> <span>Settings</span>
-        </Button>
+        </Cta>
 
-        <Button onClick={handleClick}>
-          {" "}
-          <CiLogout /> <span>Logout</span>
-        </Button>
+        <LogoutButton />
 
         {/* <p>© 2024 MapMate</p> */}
       </Footer>

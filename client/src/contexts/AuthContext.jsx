@@ -2,6 +2,7 @@
 import toast from 'react-hot-toast';
 import { createContext, useContext, useReducer } from "react";
 
+
 const BASE_URL = "http://127.0.0.1:3000";
 
 const AuthContext = createContext();
@@ -63,8 +64,10 @@ function AuthProvider({ children }) {
 
       const dataRes = await res.json();
       console.log(dataRes);
+
       localStorage.setItem("token", dataRes.token);
-      dispatch({type: "login", payload: dataRes.token })
+      localStorage.setItem("token", JSON.stringify(dataRes.data.user));
+      dispatch({type: "login", payload: dataRes })
     } catch (e) {
       console.log(e)
     }
@@ -84,8 +87,6 @@ function AuthProvider({ children }) {
         }),
       })
 
-      // console.log(res)
-
       if (res.status === 401) {
         throw new Error("Incorrect email or password");
       }
@@ -94,7 +95,7 @@ function AuthProvider({ children }) {
       }
 
       const dataRes = await res.json();
-      console.log("login",dataRes.data.user);
+
       localStorage.setItem("token", dataRes.token);
       localStorage.setItem("user", JSON.stringify(dataRes.data.user));
       dispatch({type: "login", payload: dataRes })
@@ -107,6 +108,7 @@ function AuthProvider({ children }) {
     try {
       dispatch({ type: 'logout' })
       localStorage.removeItem("token");
+      localStorage.removeItem("user");
     } catch (e) {
       console.log("could not sign you out")
     }

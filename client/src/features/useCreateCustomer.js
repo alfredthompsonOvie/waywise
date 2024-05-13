@@ -12,13 +12,7 @@ export function useCreateCustomer() {
 		mutationFn: (data) => createCustomerApi(data),
 		onSuccess: () => {
 			console.log('Create customer but toast not showing');
-			toast.success('Customer created successfully!', {
-				duration: 10000,
-				position: 'top-center',
-				className: 'toast',
-			});
-
-
+			
 			queryClient.invalidateQueries({
 				queryKey: ["customers"],
 			});

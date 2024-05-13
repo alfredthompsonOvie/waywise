@@ -76,7 +76,7 @@ const Heading = styled.header`
   justify-content: space-between;
 `;
 
-function CustomerItem({ customer }) {
+function CustomerItem({ customer, onActiveCustomer, currentCustomerId }) {
   const { name, address, _id, position } = customer;
   const { isDeleting, deleteCustomer } = useDeleteCustomer();
   const [isOpen, setIsOpen] = useState(false);
@@ -94,9 +94,9 @@ function CustomerItem({ customer }) {
 
   return (
     <>
-      <StyledItem>
-        {/* <StyledLink className={_id === currentCustomer._id ? "active" : ""} to={`${_id}?lat=${position.lat}&lng=${position.lng}`}> */}
-        <StyledLink to={`${_id}?lat=${position.lat}&lng=${position.lng}`}>
+      <StyledItem onClick={()=>onActiveCustomer(_id)}>
+        <StyledLink className={_id === currentCustomerId ? "active" : ""} to={`${_id}?lat=${position.lat}&lng=${position.lng}`}>
+        {/* <StyledLink to={`${_id}?lat=${position.lat}&lng=${position.lng}`}> */}
           <Heading>
             <StyledName>{name}</StyledName>
 
@@ -119,6 +119,7 @@ function CustomerItem({ customer }) {
           <StyledAddress>{address}</StyledAddress>
         </StyledLink>
       </StyledItem>
+
       {isOpen && (
         <Modal>
           <EditCustomerForm setIsOpen={setIsOpen} customer={customer} />

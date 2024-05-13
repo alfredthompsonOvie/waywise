@@ -45,7 +45,7 @@ position: absolute;
 left: 95%;
 left: 29em;
 left: 100%;
-top: 2em;
+top: 5.5em;
 left: 1.5em;
 
 z-index: 100;
@@ -71,6 +71,8 @@ ${({ rotate }) => rotate && `
     position: absolute;
     transform: rotate(0deg);
     left: 18em;
+    top: 2em;
+
     background-color: var(--secondary);
   }
 

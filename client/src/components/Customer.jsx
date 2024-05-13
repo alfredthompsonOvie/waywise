@@ -33,7 +33,7 @@ function CustomerDetails() {
 
   const { customer, isLoading } = useCustomer();
   
-  console.log(customer);
+  // console.log(customer);
 
   
   if (isLoading) return <Spinner />

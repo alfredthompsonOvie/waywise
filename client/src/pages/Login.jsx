@@ -17,6 +17,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import Message from "../components/Message";
 
+
 const StyledLogin = styled.section`
   display: grid;
   grid-template-columns: 1fr 10fr 1fr;
@@ -57,6 +58,7 @@ function Login() {
     const { email, password } = data;
     try {
       await login(email, password)
+
       
       navigate("/app/customers");
 
@@ -94,7 +96,7 @@ function Login() {
           <Button>Login</Button>
           <Paragraph >
             Not a User?{" "}
-            <Cta href="/auth/signup" content="Signup" mode="secondary"/>
+            <Cta href="/auth/signup" mode="secondary">Signup</Cta>
           </Paragraph>
         </FormFooter>
       </Form>

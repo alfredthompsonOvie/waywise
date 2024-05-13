@@ -4,7 +4,13 @@ const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
 
 exports.getAllCustomers = catchAsync(async (req, res, next) => {
-	const customers = await Customer.find();
+
+	// const customers = await Customer.find();
+	
+	const userId = req.user._id.toString();
+	console.log("userId",userId);
+	const customers = await Customer.find({userId});
+	// console.log("Customers",customers);
 
 	res.status(200).setHeader('Content-Type', 'application/json').json({
 		status: "success",

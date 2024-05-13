@@ -101,7 +101,7 @@ function Navbar() {
             <StyledNavLink to="/auth/signup">Signup</StyledNavLink>
           </li>
           <li className="navItem">
-            <Cta href="/auth/login" content="Login" />
+            <Cta href="/auth/login">Login</Cta>
           </li>
         </NavList>
       </NavContent>

@@ -152,12 +152,18 @@ body {
 }
 
 
+
 input,
 button,
 textarea,
 select {
   font: inherit;
   color: inherit;
+}
+
+input {
+  color: black !important;
+  padding: 1em;
 }
 
 button {

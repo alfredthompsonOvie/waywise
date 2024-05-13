@@ -21,14 +21,21 @@ exports.signup = catchAsync(async function (req, res, next) {
 
   const token = signToken(newUser._id);
 
-  const user = await User.findById(newUser._id).select("-password");
-  console.log(user);
+  // const user = await User.findById(newUser._id).select("-password");
 
   res.status(201).json({
     status: "success",
     token,
     data: {
-      user
+      user: {
+        id: newUser._id,
+        name: newUser.name,
+        email: newUser.email,
+        address: newUser.address,
+        phoneNumber: newUser.phoneNumber,
+        photo: newUser.photo
+        
+      }
     },
   });
 });
@@ -41,7 +48,7 @@ exports.login = catchAsync(async (req, res, next) => {
   }
 
   const user = await User.findOne({ email }).select("+password");
-  console.log("user",user);
+  // console.log("user",user);
 
   const correct = await user.correctPassword(password, user.password);
   console.log("correct",correct);
@@ -56,6 +63,7 @@ exports.login = catchAsync(async (req, res, next) => {
     token,
     data: {
       user: {
+        id: user._id,
         name: user.name,
         email: user.email,
         address: user.address,
@@ -85,7 +93,7 @@ exports.protect = catchAsync(async (req, res, next) => {
   // FIX THIS PART
 
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
-  console.log(decoded);
+  console.log("decoded",decoded);
 
   const freshUser = await User.findById(decoded.id);
 

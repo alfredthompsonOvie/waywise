@@ -11,8 +11,9 @@ import { useCustomers } from "../features/useCustomers";
 import PulsatingCircle from "../components/PulsatingCircleButton";
 import LeafletMap from "../components/LeafletMap";
 import { useLocation, useNavigate } from "react-router-dom";
+import Button from "../components/Button";
 
-const StyledApp = styled.section`
+const StyledApp = styled.main`
   display: grid;
   grid-template-columns: 1fr 10fr 1fr;
   grid-template-rows: auto;
@@ -32,36 +33,53 @@ const StyledApp = styled.section`
 const MapContainer = styled.section`
   grid-column: 1/-1;
   grid-row: 1;
-
+  position: relative;
   border-radius: 0.8em;
+  overflow: hidden;
+
   @media (min-width: 56.25em) {
     grid-column: 2;
     grid-row: 1;
   }
 `;
 
-// const API_KEY = import.meta.env.VITE_GOOGLE_API_KEY;
-
 function AppLayout() {
   const location = useLocation();
   const navigate = useNavigate();
-  // console.log("Location", location);
+
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const [userCords, setUserCords] = useState({});
   const [customerDetails, setCustomerDetails] = useState([]);
   const { customers } = useCustomers();
 
   function handleClick() {
     if (location.pathname === "/app/form") {
-      setIsFormOpen(true)
+      setIsFormOpen(true);
     } else {
       navigate("/app/customers");
       setIsFormOpen(false);
-
     }
-    // setIsFormOpen((isFormOpen) => !isFormOpen);
   }
-  function toggleSidebar() { 
-    setIsFormOpen((isFormOpen) =>!isFormOpen);
+  function toggleSidebar() {
+    setIsFormOpen((isFormOpen) => !isFormOpen);
+  }
+
+  function handleGetUserLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setUserCords({ lat: latitude, lng: longitude });
+        },
+        (error) => {
+          console.error("Error getting user location:", error);
+          toast("Error getting user location:", error);
+        },
+      );
+    } else {
+      console.error("Geolocation is not supported by this browser.");
+      toast("Geolocation is not supported by this browser.");
+    }
   }
 
   useEffect(() => {
@@ -84,7 +102,7 @@ function AppLayout() {
 
       setCustomerDetails(customerOBJ);
     }
-  }, [customers]);
+  }, [customers, userCords.length]);
 
   return (
     <StyledApp>
@@ -96,9 +114,19 @@ function AppLayout() {
         onHandleClick={toggleSidebar}
       />
 
-      {/* <MapContainer > */}
+
       <MapContainer onClick={handleClick}>
-        <LeafletMap isFormOpen={isFormOpen} customerDetails={customerDetails} />
+        {!userCords.lat && (
+          <Button onClick={handleGetUserLocation} $mode="userPosition">
+            Get My Location
+          </Button>
+        )}
+
+        <LeafletMap
+          isFormOpen={isFormOpen}
+          customerDetails={customerDetails}
+          userCords={userCords}
+        />
       </MapContainer>
     </StyledApp>
   );

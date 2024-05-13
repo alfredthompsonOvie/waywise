@@ -2,6 +2,8 @@
 // import { FaUser } from "react-icons/fa6";
 
 import styled from "styled-components";
+import Spinner from "./Spinner";
+import { useEffect } from "react";
 
 const FormGroup = styled.section`
 width: 100%;
@@ -43,26 +45,32 @@ function FormControl({
   defaultValue,
   register,
   errors,
-  error,
   rules,
+  isLoading
 })
+
 {
-  // const hasError = errors[label] !== undefined;
+  console.log("defaultValue", defaultValue);
+  console.log("defaultValue", defaultValue);
+
+  useEffect(() => {
+    console.log("FORM CONTROL", isLoading)
+  }, [isLoading])
+
+  if (isLoading) return <Spinner />
   return (
     <FormGroup>
       <label htmlFor={label}></label>
       <StyledInput
         type={type}
         name={label}
+        id={label}
         placeholder={placeholder}
+        {...register(label)}
         defaultValue={defaultValue}
-        {...register(label, rules)}
-        // hasError={hasError}
         className={errors[label] ? "error" : ""}
       />
-      {/* <FaUser /> */}
       {errors[label] && <Error>{errors[label].message}</Error>}
-      {error && <Error>{error}</Error>}
     </FormGroup>
   );
 }

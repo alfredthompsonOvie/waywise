@@ -9,7 +9,10 @@ const StyledMessage = styled.p`
           background-color: transparent;
           padding: 0;
           color: var(--primary);
-          text-decoration: underline;
+          color: var(--accent);
+          font-size: 2rem;
+          text-align: center;
+
         `;
       case "auth":
         return css`
@@ -33,7 +36,8 @@ const StyledMessage = styled.p`
 function Message({ message, mode }) {
   return (
     <StyledMessage $mode={mode}>
-      <span role="img">👋</span> {message}
+      <span role="img">👋</span> 
+      <span> {message}</span>
     </StyledMessage>
   );
 }

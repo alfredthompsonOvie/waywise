@@ -1,4 +1,5 @@
-import styled, { keyframes } from "styled-components";
+/* eslint-disable react/prop-types */
+import styled, { css, keyframes } from "styled-components";
 
 const SpinnerContainer = styled.div`
   height: 100%;
@@ -18,14 +19,21 @@ const StyledSpinner = styled.div`
   height: 6rem;
   border-radius: 50%;
   background: conic-gradient(#0000 10%, var(--background));
+  
   -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 8px), #000 0);
-  animation: ${rotate} 1.5s infinite linear;
+animation: ${ rotate } 1.5s infinite linear;
+  
+  ${props => props.$customerForm && css`
+    background: conic-gradient(#0000 10%, var(--text));
+    -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 8px), #000 0);
+    animation: ${ rotate } 1.5s infinite linear;
+  `}
 `;
 
-function Spinner() {
+function Spinner({customerForm}) {
   return (
     <SpinnerContainer>
-      <StyledSpinner />
+      <StyledSpinner $customerForm={customerForm } />
     </SpinnerContainer>
   );
 }

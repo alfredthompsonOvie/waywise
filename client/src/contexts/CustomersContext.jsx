@@ -9,38 +9,34 @@ const BASE_URL = "http://127.0.0.1:3000"
 
 
 const initialState = {
-	customers: [],
-	isLoading: false,
-  currentCustomer: {},
-  coordinates: {},
-	error: "",
+	currentCustomerId: null,
 };
 
 function reducer(state, action) {
 	switch (action.type) {
-		case "loading":
-			return { ...state, isLoading: true };
-		case "customers/loaded":
-			return { ...state, isLoading: false, customers: action.payload };
-		case "customer/loaded":
-			return { ...state, currentCustomer: action.payload, isLoading: false };
-		case "customer/created":
-			return {
-				...state,
-				isLoading: false,
-				customers: action.payload,
-        currentCustomer: action.payload,
-        coordinates: action.payload
-			};
-		case "customer/deleted":
-			return {
-				...state,
-				isLoading: false,
-				customers: action.payload,
-				currentCustomer: {},
-			};
-		case "rejected":
-			return { ...state, isLoading: false, error: action.payload };
+		case "active/customer":
+			return { ...state, currentCustomerId: action.payload };
+		// case "customers/loaded":
+		// 	return { ...state, isLoading: false, customers: action.payload };
+		// case "customer/loaded":
+		// 	return { ...state, currentCustomer: action.payload, isLoading: false };
+		// case "customer/created":
+		// 	return {
+		// 		...state,
+		// 		isLoading: false,
+		// 		customers: action.payload,
+    //     currentCustomer: action.payload,
+    //     coordinates: action.payload
+		// 	};
+		// case "customer/deleted":
+		// 	return {
+		// 		...state,
+		// 		isLoading: false,
+		// 		customers: action.payload,
+		// 		currentCustomer: {},
+		// 	};
+		// case "rejected":
+		// 	return { ...state, isLoading: false, error: action.payload };
 		default:
 			throw new Error("Unknown action type");
 	}
@@ -87,35 +83,7 @@ function CustomersProvider({ children }) {
   );
 
 
-  // async function createCustomer(newCity) {
-	// 	dispatch({ type: "loading" });
 
-	// 	try {
-	// 		await sendData(newCity);
-	// 		const data = await getCities();
-	// 		dispatch({ type: "city/created", payload: data });
-	// 	} catch (e) {
-	// 		dispatch({
-	// 			type: "rejected",
-	// 			payload: "There was an error creating the city...",
-	// 		});
-	// 	}
-	// }
-	async function deleteCustomer(id) {
-		// dispatch({ type: "loading" });
-		// try {
-    //   await deleteData(id);
-
-		// 	const data = await getCustomers();
-
-		// 	dispatch({ type: "city/deleted", payload: data });
-		// } catch (e) {
-		// 	dispatch({
-		// 		type: "rejected",
-		// 		payload: "There was an error deleting the city...",
-		// 	});
-		// }
-	}
 
 
 

@@ -36,17 +36,10 @@ const StyledImg = styled.img`
 
 function Profile() {
   const { user } = useAuth();
-  // console.log("Profile", user)
-  // const userName = user?.name.split(' ')[0]
-  const userName = "jack"
 
-  // const navigate = useNavigate();
+  const userName = user?.name.split(' ')[0]
+  // const userName = "jack"
 
-  // const handleClick = () => {
-  //   logout();
-
-  //   navigate("/");
-  // }
   return (
     <StyledProfile>
       <ProfileContent>

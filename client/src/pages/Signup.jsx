@@ -109,7 +109,10 @@ function Signup() {
         <FormFooter>
           <Button>Signup</Button>
           <p>
-            Already have an account? <Cta href="/auth/login" content="Login" mode="secondary" />
+            Already have an account? {" "}
+            <Cta href="/auth/login" mode="secondary" >
+              Login
+            </Cta>
           </p>
         </FormFooter>
       </Form>

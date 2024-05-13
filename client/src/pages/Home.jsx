@@ -123,7 +123,9 @@ function Home() {
               information, and calculate distances hassle-free.
             </p>
 
-            <Cta href="/app" content="Get Started Now" />
+            <Cta href="/app">
+            Get Started Now
+            </Cta>
           </Description>
         </Contents>
       </StyledMain>

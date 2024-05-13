@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 
 const BASE_URL = "http://127.0.0.1:3000";
 
@@ -41,24 +42,29 @@ async function getCustomer(id) {
 
 
 async function createCustomer(data) {
-  const {name, email, address, phoneNumber, lat, lng } = data;
+  console.log("data", data);
+  // const {name, email, address, phoneNumber, lat, lng, userId } = data;
   try {
     const res = await fetch(`${BASE_URL}/api/v1/customers`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        name,
-        email,
-        address,
-        phoneNumber,
-        position: {
-          lat,
-          lng,
-        },
-      }),
+      body: JSON.stringify(data),
+      // body: JSON.stringify({
+      //   name,
+      //   email,
+      //   address,
+      //   phoneNumber,
+      //   position: {
+      //     lat,
+      //     lng,
+      //   },
+      //   userId,
+      // }),
     });
+
+    console.log("res", res)
 
     if (!res.ok) {
       throw new Error("Failed to send data to backend");
@@ -66,8 +72,17 @@ async function createCustomer(data) {
 
     const dataRes = await res.json();
 
+    console.log("dataRes", dataRes);
+
+    toast.success('Customer created successfully!', {
+      duration: 10000,
+      position: 'top-center',
+      className: 'toast',
+    });
+
   } catch (e) {
     console.error("Error sending data to backend:", e);
+    toast("Failed to send data to backend")
   }
 }
 async function editCustomer(data) { 
