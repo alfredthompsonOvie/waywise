@@ -82,6 +82,12 @@ const GlobalStyles = createGlobalStyle`
 .active {
   border: 2px solid var(--accent);
   border-left: 5px solid var(--accent);
+
+  border: 2px solid var(--secondary);
+  border-left: 5px solid var(--secondary);
+  
+  border: 2px solid var(--secondary);
+  border-left: 5px solid var(--secondary);
 }
 .isOpen {
   

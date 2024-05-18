@@ -120,16 +120,15 @@ function CustomerForm() {
   });
 
   const onSubmit = (data) => {
-    // console.log("onsubmit", data);
 
     const address = data.address || customerAddress;
     const lat = data.lat || coords.lat;
     const lng = data.lng || coords.lng;
-    const userId = user.id;
+    const userId = user._id;
 
     const customerData = { ...data, address, phoneNumber: Number(data.phoneNumber), position: {lat, lng}, userId};
 
-    console.log("customerData",customerData);
+    // console.log("customerData",customerData);
     createCustomer(customerData);
 
     navigate("/app/customers");

@@ -1,21 +1,19 @@
 import styled from "styled-components";
-import Navbar from "../components/Navbar";
-import Cta from "../components/Cta";
-
+import { object, string } from 'yup';
+import { useNavigate } from "react-router-dom";
+import { yupResolver } from "@hookform/resolvers/yup"
 import { useForm } from "react-hook-form";
 
-import FormControl from "../components/FormControl";
-import Form from "../components/Form";
-import FormFooter from "../components/FormFooter";
-import Button from "../components/Button";
-
-
-import { object, string } from 'yup';
-import { yupResolver } from "@hookform/resolvers/yup"
-import FormTitle from "../components/FormTitle";
 import { useAuth } from "../contexts/AuthContext";
-import { useNavigate } from "react-router-dom";
+
+import Cta from "../components/Cta";
+import Form from "../components/Form";
+import Navbar from "../components/Navbar";
+import Button from "../components/Button";
 import Message from "../components/Message";
+import FormTitle from "../components/FormTitle";
+import FormFooter from "../components/FormFooter";
+import FormControl from "../components/FormControl";
 
 
 const StyledLogin = styled.section`
@@ -38,7 +36,8 @@ const Paragraph = styled.p`
 
 function Login() {
   const navigate = useNavigate();
-  const { login } = useAuth()
+  const { login } = useAuth();
+
   let userSchema = object({
     email: string().required("email is required" ).email(),
     password: string().required("Password is required").min(8),
@@ -52,20 +51,19 @@ function Login() {
     resolver: yupResolver(userSchema),
   });
 
-
-
   const onSubmit = async (data) => {
     const { email, password } = data;
     try {
       await login(email, password)
 
-      
+      console.log("login page COOKIE",document.cookie);
       navigate("/app/customers");
 
     } catch (err) {
       console.log(err)
     }
   };
+
   return (
     <StyledLogin>
       <Navbar />

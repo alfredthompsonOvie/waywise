@@ -3,10 +3,40 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
 const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
+const sendEmail = require("../utils/email");
 
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN,
+  });
+};
+
+const createSendToken = (user, statusCode, res) => {
+  const token = signToken(user._id);
+
+  const cookieOptions = {
+    expires: new Date(
+      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000,
+    ),
+    httpOnly: true,
+  }
+
+  if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
+
+  // TODO: COOKIE DOSE NOT SHOW UP IN BROWSER BUT ITS SHOWS UP IN POSTMAN
+  res.cookie("jwt", token, cookieOptions);
+  console.log("RESPONSE COOKIE:", res.cookie);
+  console.log("RESPONSE COOKIES:", res.cookies);
+  
+
+  user.password = undefined;
+
+  res.status(statusCode).json({
+    status: "success",
+    token,
+    data: {
+      user,
+    },
   });
 };
 
@@ -19,25 +49,8 @@ exports.signup = catchAsync(async function (req, res, next) {
     address: req.body.address,
   });
 
-  const token = signToken(newUser._id);
+  createSendToken(newUser, 201, res);
 
-  // const user = await User.findById(newUser._id).select("-password");
-
-  res.status(201).json({
-    status: "success",
-    token,
-    data: {
-      user: {
-        id: newUser._id,
-        name: newUser.name,
-        email: newUser.email,
-        address: newUser.address,
-        phoneNumber: newUser.phoneNumber,
-        photo: newUser.photo
-        
-      }
-    },
-  });
 });
 
 exports.login = catchAsync(async (req, res, next) => {
@@ -48,32 +61,29 @@ exports.login = catchAsync(async (req, res, next) => {
   }
 
   const user = await User.findOne({ email }).select("+password");
-  // console.log("user",user);
 
   const correct = await user.correctPassword(password, user.password);
-  console.log("correct",correct);
 
   if (!user || !correct) {
     return next(new AppError("Incorrect email or password", 401));
   }
 
-  const token = signToken(user._id);
+  res.cookie("test", "test");
+
+  createSendToken(user, 200, res);
+
+});
+
+exports.logout = (req, res) => {
+  res.cookie("jwt", "loggedout", {
+    expires: new Date(Date.now() + 10 * 1000),
+    httpOnly: true
+  });
+
   res.status(200).json({
     status: "success",
-    token,
-    data: {
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        address: user.address,
-        phoneNumber: user.phoneNumber,
-        photo: user.photo
-        
-      }
-    }
-  });
-});
+  })
+ }
 
 exports.protect = catchAsync(async (req, res, next) => {
   let token;
@@ -90,22 +100,68 @@ exports.protect = catchAsync(async (req, res, next) => {
     );
   }
 
-  // FIX THIS PART
-
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
-  console.log("decoded",decoded);
 
-  const freshUser = await User.findById(decoded.id);
+  const currentUser = await User.findById(decoded.id);
 
-  if (!freshUser) {
-    return next(new AppError("The user belonging to this token is no longer available", 401))
+// Not authorized, user not found
+  if (!currentUser) {
+    return next(
+      new AppError(
+        "The user belonging to this token is no longer available",
+        401,
+      ),
+    );
   }
 
-  if (freshUser.changedPasswordAfter(decoded.iat)) {
-    return next(new AppError("User recently changed password! Please log in again.", 401))
+  if (currentUser.changedPasswordAfter(decoded.iat)) {
+    return next(
+      new AppError("User recently changed password! Please log in again.", 401),
+    );
   }
 
-  req.user = freshUser;
+  req.user = currentUser;
 
   next();
 });
+
+
+exports.forgotPassword = catchAsync(async(req, res, next) => { 
+  const user = await User.findOne({ email: req.body.email });
+  
+  if (!user) {
+    return next(new AppError("There is no user with that email address", 404))
+  }
+
+  const resetToken = user.createPasswordResetToken();
+
+  await user.save({ validateBeforeSave: false });
+  
+  const resetURL = `${req.protocol}://${req.get(
+    "host",
+  )}/api/v1/users/resetPassword/${resetToken}`;
+
+  const message = `Forgot your Password?`
+
+  try {
+    await sendEmail({
+      email: user.email,
+      subject: "Your password reset token (valid for 10 min)",
+      message
+    })
+  
+    res.status(200).json({
+      status: "success",
+      message: "Token sent to email",
+    });
+
+  } catch (e) {
+    user.passwordResetToken =  undefined;
+    user.passwordResetExpires = undefined;
+
+    await user.save({ validateBeforeSave: false });
+
+    return next(new AppError("There was an error sending the email. Try again later!", 500))
+  }
+})
+exports.resetPassword = (req, res, next) => { }

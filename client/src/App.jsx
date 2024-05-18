@@ -16,12 +16,12 @@ import CustomerForm from "./components/CustomerForm";
 import { AuthProvider } from "./contexts/AuthContext";
 import GlobalStyles from "./styles/globalStyles";
 import Settings from "./pages/Settings";
+import { CurrentCustomerProvider } from "./contexts/CurrentCustomerContext";
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       staleTime: 0,
-      // staleTime: 60 * 1000,
     },
   },
 });
@@ -32,55 +32,56 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <ReactQueryDevtools initialIsOpen={false} />
         <GlobalStyles />
+        <CurrentCustomerProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route index element={<Home />} />
+              <Route path="auth/login" element={<Login />} />
+              <Route path="auth/signup" element={<Signup />} />
+              <Route
+                path="app"
+                element={
+                  <ProtectedRoute>
+                    <AppLayout />
+                  </ProtectedRoute>
+                }
+              >
+                <Route index element={<Navigate replace to="customers" />} />
+                <Route path="customers" element={<CustomersList />} />
+                <Route path="customers/:id" element={<Customer />} />
+                <Route path="form" element={<CustomerForm />} />
+              </Route>
 
-        <BrowserRouter>
-          <Routes>
-            <Route index element={<Home />} />
-            <Route path="auth/login" element={<Login />} />
-            <Route path="auth/signup" element={<Signup />} />
-            <Route
-              path="app"
-              element={
-                <ProtectedRoute>
-                  <AppLayout />
-                </ProtectedRoute>
-              }
-            >
-              <Route index element={<Navigate replace to="customers" />} />
-              <Route path="customers" element={<CustomersList />} />
-              <Route path="customers/:id" element={<Customer />} />
-              <Route path="form" element={<CustomerForm />} />
-            </Route>
-
-            <Route
-              path="settings"
-              element={
-                <ProtectedRoute>
-                  <Settings />
-                </ProtectedRoute>
-              }
-            ></Route>
-            <Route path="*" element={<PageNotFound />} />
-          </Routes>
-        </BrowserRouter>
-        <Toaster
-          position="top-center"
-          gutter={12}
-          containerStyle={{ margin: "8px" }}
-          toastOptions={{
-            success: {
-              duration: 3000,
-            },
-            error: {
-              duration: 5000,
-            },
-            style: {
-              fontSize: "16px",
-              maxWidth: "450px",
-              padding: "16px 24px",
-            },
-          }}
-        />
+              <Route
+                path="settings"
+                element={
+                  <ProtectedRoute>
+                    <Settings />
+                  </ProtectedRoute>
+                }
+              ></Route>
+              <Route path="*" element={<PageNotFound />} />
+            </Routes>
+          </BrowserRouter>
+          <Toaster
+            position="top-center"
+            gutter={12}
+            containerStyle={{ margin: "8px" }}
+            toastOptions={{
+              success: {
+                duration: 3000,
+              },
+              error: {
+                duration: 5000,
+              },
+              style: {
+                fontSize: "16px",
+                maxWidth: "450px",
+                padding: "16px 24px",
+              },
+            }}
+          />
+        </CurrentCustomerProvider>
       </QueryClientProvider>
     </AuthProvider>
   );

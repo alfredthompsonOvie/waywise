@@ -30,17 +30,7 @@ const StyledTitle = styled.h1`
 function CustomersList() {
   const { customers, isLoading, error } = useCustomers();
 
-  const [currentCustomerId, setCurrentCustomerId] = useState(22);
-
-  function handleActiveCustomer(id) {
-    console.log("id: " + id);
-    setCurrentCustomerId(id);
-  }
-
-  // console.log("customers, isLoading, error");
-  // console.log(customers, isLoading, error);
-
-  if (isLoading) return <Spinner />;
+  if (isLoading) return <Spinner customerForm="customerForm" />;
 
   if (error)
     return <Message message="Sorry our Server is down" mode="secondary" />;
@@ -52,7 +42,7 @@ function CustomersList() {
   return (
     <StyledContainer>
       <StyledHeader>
-        <StyledTitle>list of customers {currentCustomerId }</StyledTitle>
+        <StyledTitle>list of customers</StyledTitle>
       </StyledHeader>
 
       <ul>
@@ -60,8 +50,6 @@ function CustomersList() {
           <CustomerItem
             key={customer._id}
             customer={customer}
-            currentCustomerId={currentCustomerId}
-            onActiveCustomer={handleActiveCustomer}
           />
         ))}
       </ul>

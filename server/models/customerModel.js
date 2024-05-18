@@ -3,14 +3,11 @@ const mongoose = require("mongoose");
 
 
 const customerSchema = new mongoose.Schema({
-	// aaaaaa: {
-	// 	type: mongoose.Schema.Types.ObjectId,
-	// 	ref: "User",
-	// },
-	// userId: {
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   ref: "User",
-  // },
+
+	currUserId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
 	userId: {
     type: String,
 		required: [true, "Customer must belong to a user"],
@@ -55,5 +52,4 @@ const customerSchema = new mongoose.Schema({
 
 const Customer = mongoose.model("Customer", customerSchema);
 
-// console.log("UserId:", mongoose.Schema.Types.objectId);
 module.exports = Customer;

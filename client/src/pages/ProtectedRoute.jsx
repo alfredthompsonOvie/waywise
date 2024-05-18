@@ -4,6 +4,9 @@ import { useAuth } from "../contexts/AuthContext";
 
 import { useNavigate } from "react-router-dom";
 
+// import Cookies from 'js-cookie';
+
+
 function ProtectedRoute({ children }) {
   const [hasToken, setHasToken] = useState(false);
   const { isAuthenticated, dispatch } = useAuth();
@@ -11,7 +14,6 @@ function ProtectedRoute({ children }) {
   const navigate = useNavigate();
 
   useEffect(() => { 
-
     const token = localStorage.getItem("token");
     setHasToken(!!token);
     
@@ -19,6 +21,7 @@ function ProtectedRoute({ children }) {
       const userData = JSON.parse(localStorage.getItem("user"));
       dispatch({type: "update", payload: userData})
     } else if (!isAuthenticated && !token) {
+      console.log("token", token)
       navigate("/auth/login");
     }
   }, [isAuthenticated, navigate, dispatch])

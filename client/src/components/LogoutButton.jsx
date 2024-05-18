@@ -1,4 +1,3 @@
-// import { useQuery,  } from '@tanstack/react-query';
 import { useQueryClient } from '@tanstack/react-query'
 
 import { useNavigate } from 'react-router-dom';
@@ -13,10 +12,8 @@ function LogoutButton() {
 
 
 
-  const handleLogout =async () => {
-    await queryClient.invalidateQueries({
-      queryKey: ['customers']
-    });
+  const handleLogout = async () => {
+    queryClient.clear();
 
     logout();
     navigate("/");

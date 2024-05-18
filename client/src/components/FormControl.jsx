@@ -50,11 +50,8 @@ function FormControl({
 })
 
 {
-  console.log("defaultValue", defaultValue);
-  console.log("defaultValue", defaultValue);
-
   useEffect(() => {
-    console.log("FORM CONTROL", isLoading)
+    // console.log("FORM CONTROL", isLoading)
   }, [isLoading])
 
   if (isLoading) return <Spinner />

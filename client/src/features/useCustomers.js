@@ -7,7 +7,7 @@ export function useCustomers() {
 		error,
 		data: customers,
 	} = useQuery({
-		queryKey: ["customers"],
+		queryKey: ["Customers"],
 		queryFn: getCustomers,
 	});
 

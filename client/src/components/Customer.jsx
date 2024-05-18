@@ -7,8 +7,8 @@ import Spinner from "./Spinner";
 import { useCustomer } from "../features/useCustomer";
 
 const StyledCustomerDetail = styled.section`
-  background-color: #fbe4d8;
-  color: #190019;
+  background-color: var(--background-card);
+  color: var(--text);
   padding: 1em;
   border-radius: 0.5em;
 `;
@@ -18,6 +18,8 @@ const StyledContent = styled.p`
   }
   span:last-of-type {
     font-style: italic;
+  }
+  span:first-of-type {
     font-weight: bold;
   }
 `;
@@ -26,15 +28,13 @@ const StyledLink = styled(Link)`
   display: inline-flex;
   align-items: center;
   gap: .3em;
-  color: #384358;
+  color: var(--accent);
+
 `;
 
 function CustomerDetails() {
 
   const { customer, isLoading } = useCustomer();
-  
-  // console.log(customer);
-
   
   if (isLoading) return <Spinner />
   
@@ -57,6 +57,10 @@ function CustomerDetails() {
       <StyledContent>
         <span>Tel: </span>
         <span>{ phoneNumber }</span>
+      </StyledContent>
+      <StyledContent>
+        <span>Distance from you: </span>
+        <span> 40 Meter</span>
       </StyledContent>
       <StyledLink to="/app/customers">
         <FaLongArrowAltLeft />

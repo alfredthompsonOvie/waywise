@@ -6,6 +6,7 @@ import { FaEdit } from "react-icons/fa";
 import { useDeleteCustomer } from "../features/useDeleteCustomer";
 import { useState } from "react";
 import EditCustomerForm from "./EditCustomerForm";
+import { useCurrentCustomer } from "../contexts/CurrentCustomerContext";
 
 const StyledItem = styled.li`
   & + & {
@@ -76,10 +77,13 @@ const Heading = styled.header`
   justify-content: space-between;
 `;
 
-function CustomerItem({ customer, onActiveCustomer, currentCustomerId }) {
+function CustomerItem({ customer }) {
   const { name, address, _id, position } = customer;
   const { isDeleting, deleteCustomer } = useDeleteCustomer();
+  const { handleCurrentCustomer, currentCustomerId } = useCurrentCustomer();
   const [isOpen, setIsOpen] = useState(false);
+
+  console.log("currentCustomerId", currentCustomerId);
 
   function handleDelete(e) {
     e.preventDefault();
@@ -94,9 +98,17 @@ function CustomerItem({ customer, onActiveCustomer, currentCustomerId }) {
 
   return (
     <>
-      <StyledItem onClick={()=>onActiveCustomer(_id)}>
-        <StyledLink className={_id === currentCustomerId ? "active" : ""} to={`${_id}?lat=${position.lat}&lng=${position.lng}`}>
-        {/* <StyledLink to={`${_id}?lat=${position.lat}&lng=${position.lng}`}> */}
+      <StyledItem
+        onClick={() => {
+          handleCurrentCustomer(_id);
+          console.log("clicked customer", _id);
+        }}
+      >
+        <StyledLink
+          className={_id === currentCustomerId ? "active" : ""}
+          to={`${_id}?lat=${position.lat}&lng=${position.lng}`}
+        >
+          {/* <StyledLink to={`${_id}?lat=${position.lat}&lng=${position.lng}`}> */}
           <Heading>
             <StyledName>{name}</StyledName>
 
